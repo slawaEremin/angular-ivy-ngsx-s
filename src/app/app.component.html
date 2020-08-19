@@ -1,0 +1,31 @@
+
+<input (keyup.enter)="onAddTodo(todoTitleInput.value)" #todoTitleInput type="text" placeholder="Todo title...">
+
+<button (click)="onAddTodo(todoTitleInput.value)">ADD</button>
+
+<div class="all-todos">
+
+  <p>Uncompleted todos:</p>
+
+  <app-todo 
+    *ngFor="let todo of uncompleted$ | async;"
+    [todo]="todo"
+    (complete)="setCompleted(todo.id, $event)"
+    (remove)="remove($event)"
+  ></app-todo>
+</div>
+
+<hr/>
+
+<div class="all-todos">
+
+  <p>Completed todos:</p>
+
+  <app-todo 
+    *ngFor="let todo of completed$ | async;"
+    [todo]="todo"
+    (complete)="setCompleted(todo.id, $event)"
+    (remove)="remove($event)"
+  ></app-todo>
+</div>
+

@@ -1,0 +1,16 @@
+<div class="todo-container">
+  <input 
+    #input
+    type="checkbox" 
+    [checked]="todo.isCompleted" 
+    (change)="change()"
+  />
+  <span 
+    [class.completed]="todo.isCompleted"  
+    class="todo-title"
+  >
+   {{todo.title}}
+  </span>
+
+  <button (click)="onRemove(todo.id)">X</button>
+</div>
