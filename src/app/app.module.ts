@@ -5,9 +5,8 @@ import { NgxsModule } from '@ngxs/store';
 import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { AppComponent } from './app.component';
 
-import { TodoState } from './store/todo';
+import { TodoState } from './store/todo/todo.state';
 import { TodoComponent } from './components/todo/todo.component';
 
 @NgModule({

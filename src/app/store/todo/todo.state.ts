@@ -1,4 +1,4 @@
-import { State, Selector, Action, StateContext } from 'ngxs/store';
+import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { Todo } from './todo.actions';
 import { TodoModel } from '../../models';
@@ -16,30 +16,34 @@ interface TodoStateModel {
 @Injectable()
 export class TodoState {
   @Selector()
-  static completed(state: TodoModel[] ) {
-    return state.filter( ({isCompelted}: TodoModel) => isCompelted)
+  static completed(state: TodoStateModel ) {
+    return state.todos.filter( ({isCompleted}: TodoModel) => isCompleted)
   }
 
   @Selector() 
-  static uncompleted(state: TodoModel[]) {
-    return state.filter( ({isCompelted}: TodoModel) => !isCompelted)
+  static uncompleted(state: TodoStateModel) {
+    return state.todos.filter( ({isCompleted}: TodoModel) => !isCompleted)
   }
 
   @Action(Todo.Add)
-  add(ctx: StateContext, {title}: Todo.Add) {
+  add(ctx: StateContext<TodoStateModel>, {title}: Todo.Add) {
     const {todos} = ctx.getState();
 
-    ctx.patchState({
-      todos: todos.concat({
-        id: todos.length + 1,
-        title,
-        isCompleted: false
-      })
+
+    ctx.setState({
+      todos: [
+        ...todos,
+        {
+          id: todos.length + 1 + '',
+          title,
+          isCompleted: false
+        } as TodoModel
+      ]
     })
   }
 
   @Action(Todo.Remove)
-  remove(ctx: StateContext, {id}: Todo.Remove) {
+  remove(ctx: StateContext<TodoStateModel>, {id}: Todo.Remove) {
     const {todos} = ctx.getState();
 
     ctx.patchState({
@@ -48,13 +52,13 @@ export class TodoState {
   }
 
   @Action(Todo.SetCompleted)
-  setCompleted(ctx: StateContext, {id, isCompelted}: Todo.SetCompleted) {
+  setCompleted(ctx: StateContext<TodoStateModel>, {id, isCompleted}: Todo.SetCompleted) {
     const {todos} = ctx.getState();
 
     ctx.patchState({
       todos: todos.map( (todo: TodoModel) => todo.id === id ? {
         ...todo,
-        isCompelted
+        isCompleted
       }: todo)
     })
   }

@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
-import { Store, Select } from 'ngxs/store';
-import { Todo } from './store/actions';
-import { TodoState } from './store/state';
+import { Store, Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { Todo } from './store/todo/todo.actions';
+import { TodoState } from './store/todo/todo.state';
 import { TodoModel } from './models';
 
 
@@ -18,8 +19,8 @@ export class AppComponent  {
   // optimization, rerenders only todos that change instead of the entire list of todos
   todosTrackFn = (i, todo) => todo.id;
 
-  @Select(TodoState.completed) completed$: TodoModel[];
-  @Select(TodoState.uncompleted) uncompleted$: TodoModel[];
+  @Select(TodoState.completed) completed$: Observable<TodoModel[]>;
+  @Select(TodoState.uncompleted) uncompleted$: Observable<TodoModel[]>;
 
   constructor(
     public store: Store
